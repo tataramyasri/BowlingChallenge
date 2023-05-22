@@ -1,0 +1,55 @@
+# BowlingChallenge
+import random
+
+def roll(pins):
+    return random.randint(0, pins)
+
+def frame_score(roll1, roll2):
+    if roll1 == 10:
+        return 10  
+    elif roll1 + roll2 == 10:
+        return 10 
+    else:
+        return roll1 + roll2
+
+def game_score(rolls):
+    score = 0
+    frame = 1
+    roll_num = 0
+    while frame <= 10:
+        roll1 = rolls[roll_num]
+        if roll1 == 10: 
+            score += 10 + rolls[roll_num+1] + rolls[roll_num+2]
+            roll_num += 1
+        else:
+            roll2 = rolls[roll_num+1]
+            score += frame_score(roll1, roll2)
+            roll_num += 2
+        frame += 1
+    return score
+
+rolls = []
+for frame in range(1, 10):
+    roll1 = roll(10)
+    if roll1 == 10:  
+        rolls.append(10)
+        rolls.append(0)
+    else:
+        roll2 = roll(10 - roll1)
+        rolls.append(roll1)
+        rolls.append(roll2)
+roll1 = roll(10)
+roll2 = roll(10)
+if roll1 == 10 or roll1 + roll2 == 10:  
+    rolls.append(roll1)
+    rolls.append(roll2)
+    if roll1 == 10:
+        rolls.append(roll(10))
+    rolls.append(roll(10))
+else:
+    rolls.append(roll1)
+    rolls.append(roll2)
+    rolls.append(roll(10))
+
+print("Rolls:", rolls)
+print("Score:", game_score(rolls))
